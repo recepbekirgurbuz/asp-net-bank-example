@@ -19,5 +19,19 @@ namespace asp_net_restful_api.Controllers
             return View();
         }
 
+        [HttpPost("/loginPost")]
+        public IActionResult LoginPost(string username, string password)
+        {
+            var user = _context.Users
+                .FirstOrDefault(u => u.Username == username && u.Password == password);
+
+            if (user != null)
+            {
+                return Content($"Hoş geldiniz, {user.Name} {user.Surname}!");
+            }
+
+            ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre hatalı.");
+            return View();
+        }
     }
 }
